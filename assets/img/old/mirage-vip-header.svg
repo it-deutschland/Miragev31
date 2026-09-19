@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" role="img" aria-labelledby="title desc">
+  <title id="title">Mirage VIP Header</title>
+  <desc id="desc">Futuristic purple Mirage VIP banner.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12041c"/>
+      <stop offset="35%" stop-color="#43116f"/>
+      <stop offset="70%" stop-color="#6a24ad"/>
+      <stop offset="100%" stop-color="#220736"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".95"/>
+      <stop offset="18%" stop-color="#f7d9ff" stop-opacity=".75"/>
+      <stop offset="50%" stop-color="#b345ff" stop-opacity=".35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#f3beff" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="titleFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f3dbff"/>
+      <stop offset="100%" stop-color="#cb78ff"/>
+    </linearGradient>
+    <filter id="titleGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="520" fill="url(#bg)"/>
+  <rect width="1600" height="520" fill="url(#glow)"/>
+  <path d="M0 122C144 144 288 103 432 121C576 139 720 181 864 172C1008 163 1152 97 1296 107C1392 114 1493 138 1600 130V0H0Z" fill="#ffffff" fill-opacity=".05"/>
+  <path d="M0 360C160 330 320 278 480 292C640 306 800 391 960 390C1120 389 1280 303 1440 298C1497 296 1549 302 1600 312V520H0Z" fill="#000000" fill-opacity=".18"/>
+  <circle cx="800" cy="118" r="150" fill="none" stroke="#f5ceff" stroke-opacity=".22" stroke-width="2"/>
+  <circle cx="800" cy="118" r="92" fill="none" stroke="#f5ceff" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M215 338H1385" stroke="url(#line)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M265 360H1335" stroke="url(#line)" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/>
+  <text x="800" y="252" text-anchor="middle" font-size="138" font-family="Georgia, 'Times New Roman', serif" letter-spacing="8" fill="url(#titleFill)" filter="url(#titleGlow)">MIRAGE</text>
+  <text x="800" y="338" text-anchor="middle" font-size="94" font-family="Arial, Helvetica, sans-serif" letter-spacing="14" fill="#fbe5ff" filter="url(#titleGlow)">VIP</text>
+  <g fill="#ffd5ff" fill-opacity=".22">
+    <circle cx="322" cy="146" r="8"/>
+    <circle cx="1284" cy="146" r="8"/>
+    <circle cx="800" cy="78" r="10"/>
+    <circle cx="800" cy="416" r="6"/>
+  </g>
+</svg>

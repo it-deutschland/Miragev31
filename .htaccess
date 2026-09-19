@@ -1,0 +1,30 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^login/telegram/?$ login/telegram.php [L,QSA]
+RewriteRule ^dashboard/?$ dashboard/index.php [L,QSA]
+RewriteRule ^dashboard/tickets/?$ dashboard/tickets.php [L,QSA]
+RewriteRule ^payment/voucher/?$ payment/voucher.php [L,QSA]
+
+RewriteRule ^admin/?$ admin/index.php [L,QSA]
+RewriteRule ^admin/login/?$ admin/login.php [L,QSA]
+RewriteRule ^admin/register/?$ admin/register.php [L,QSA]
+RewriteRule ^admin/logout/?$ admin/logout.php [L,QSA]
+RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L,QSA]
+RewriteRule ^admin/vouchers/?$ admin/vouchers.php [L,QSA]
+RewriteRule ^admin/tickets/?$ admin/tickets.php [L,QSA]
+RewriteRule ^admin/users/?$ admin/users.php [L,QSA]
+RewriteRule ^admin/logs/?$ admin/logs.php [L,QSA]
+RewriteRule ^admin/admins/?$ admin/admins.php [L,QSA]
+RewriteRule ^admin/edit/?$ admin/edit.php [L,QSA]
+
+ErrorDocument 403 /errors/403.php
+ErrorDocument 404 /errors/404.php
+ErrorDocument 500 /errors/500.php
+
+<FilesMatch "^(\.env|config\.php|database\.php)$">
+  Require all denied
+</FilesMatch>

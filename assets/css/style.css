@@ -531,13 +531,30 @@ a:hover {
         align-items: flex-start;
     }
 
-    .sidebar {
-        width: 100%;
-        min-height: auto;
+    .app-admin-layout .d-flex.min-vh-100 {
+        flex-direction: row;
+        align-items: stretch;
     }
 
-    .d-flex.min-vh-100 {
+    .app-admin-layout .sidebar {
+        width: min(240px, 78vw);
+        flex-shrink: 0;
+        padding: 1rem !important;
+    }
+
+    .app-admin-layout .sidebar .brand-panel {
         flex-direction: column;
+        align-items: flex-start;
+        padding: 0.9rem;
+    }
+
+    .app-admin-layout .sidebar .brand-logo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .app-admin-layout main.flex-grow-1 {
+        min-width: 0;
     }
 
     .hero-banner .hero-overlay {
@@ -548,6 +565,16 @@ a:hover {
 @media (max-width: 767.98px) {
     .brand-panel {
         width: 100%;
+    }
+
+    .app-admin-layout .sidebar {
+        width: min(210px, 74vw);
+    }
+
+    .app-admin-layout .sidebar .nav-link,
+    .app-admin-layout .sidebar .btn {
+        padding-inline: 0.85rem;
+        font-size: 0.92rem;
     }
 
     .hero-title {

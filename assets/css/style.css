@@ -538,8 +538,6 @@ a:hover {
 
     .app-admin-layout .sidebar {
         width: min(240px, 78vw);
-        min-height: 100vh;
-        min-height: 100dvh;
         flex-shrink: 0;
         padding: 1rem !important;
     }

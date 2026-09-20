@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS cryptovouchers (
     CONSTRAINT fk_voucher_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_voucher_viewed_by FOREIGN KEY (viewed_by) REFERENCES admins(id) ON DELETE SET NULL,
     CONSTRAINT fk_voucher_processed_by FOREIGN KEY (processed_by) REFERENCES admins(id) ON DELETE SET NULL,
-    CONSTRAINT chk_voucher_amount CHECK (amount IN (50,75,150))
+    CONSTRAINT chk_voucher_amount CHECK (amount IN (5,10,25,50,100,150,200,250))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS admin_logs (

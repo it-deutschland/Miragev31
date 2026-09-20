@@ -65,8 +65,8 @@ function voucherStatusBadge(string $status): string
 function buildVipOverview(array $vouchers): array
 {
     $depositedTotal = 0;
-    $remainingDays = 0;
     $hasLifetime = false;
+    $timedVouchers = [];
     $nowTs = time();
 
     foreach ($vouchers as $voucher) {
@@ -93,11 +93,25 @@ function buildVipOverview(array $vouchers): array
             continue;
         }
 
-        $endTs = $startTs + ($durationDays * 86400);
-        if ($endTs > $nowTs) {
-            $remainingDays += (int) ceil(($endTs - $nowTs) / 86400);
-        }
+        $timedVouchers[] = ['start_ts' => $startTs, 'duration_days' => $durationDays];
     }
+
+    usort(
+        $timedVouchers,
+        static fn (array $a, array $b): int => $a['start_ts'] <=> $b['start_ts']
+    );
+
+    $activeUntilTs = 0;
+    foreach ($timedVouchers as $timedVoucher) {
+        $startTs = (int) $timedVoucher['start_ts'];
+        $durationDays = (int) $timedVoucher['duration_days'];
+        $effectiveStart = max($startTs, $activeUntilTs);
+        $activeUntilTs = $effectiveStart + ($durationDays * 86400);
+    }
+
+    $remainingDays = $activeUntilTs > $nowTs
+        ? (int) ceil(($activeUntilTs - $nowTs) / 86400)
+        : 0;
 
     $remainingLabel = $hasLifetime
         ? 'Lifetime'

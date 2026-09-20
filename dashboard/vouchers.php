@@ -134,6 +134,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="app-card p-4 mt-4">
     <span class="cyber-chip">Crypto Voucher kaufen</span>
     <h2 class="h4 mt-3">Anbieter (nach Bekanntheitsgrad)</h2>
+    <div data-payment-scope>
     <div class="mb-3 mt-3">
         <label class="form-label" for="voucher_payment_filter">Nach Zahlungsmethode filtern</label>
         <select class="form-select" id="voucher_payment_filter" data-payment-filter>
@@ -166,6 +167,7 @@ require __DIR__ . '/../includes/header.php';
             <p class="mb-2">z. B. 50 € und 100 € · Digitale Abwicklung.</p>
             <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal und zahlreiche weitere Zahlungsmethoden</p></details>
         </div>
+    </div>
     </div>
 </div>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

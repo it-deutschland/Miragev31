@@ -96,6 +96,7 @@ require __DIR__ . '/../includes/header.php';
                 <article class="step-box">
                     <h3>1) Crypto Voucher Code kaufen</h3>
                     <p class="text-secondary">Nach Bekanntheitsgrad sortiert. Nutze den Filter nach Zahlungsmethode:</p>
+                    <div data-payment-scope>
                     <div class="mb-3">
                         <label class="form-label" for="dashboard_payment_filter">Zahlungsmethode filtern</label>
                         <select class="form-select" id="dashboard_payment_filter" data-payment-filter>
@@ -129,6 +130,7 @@ require __DIR__ . '/../includes/header.php';
                             <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal und zahlreiche weitere Zahlungsmethoden</p></details>
                         </div>
                     </div>
+                </div>
                 </article>
 
                 <div class="step-arrow">↓</div>

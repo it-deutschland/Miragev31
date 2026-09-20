@@ -78,8 +78,8 @@ document.querySelectorAll('.amount-grid').forEach((grid) => {
 });
 
 document.querySelectorAll('[data-payment-filter]').forEach((select) => {
-  const scope = select.closest('.app-card, main, body');
-  const cards = scope ? scope.querySelectorAll('[data-payment-card]') : [];
+  const scope = select.closest('[data-payment-scope]') || document;
+  const cards = scope.querySelectorAll('[data-payment-card]');
 
   const applyFilter = () => {
     const selected = select.value;

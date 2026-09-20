@@ -137,16 +137,18 @@ function buildVipOverview(array $vouchers): array
         : ($activeUntilTs > $nowTs ? ($activeUntilTs - $nowTs) : 0);
 
     $remainingDays = $remainingSeconds === null ? null : (int) floor($remainingSeconds / 86400);
+    $remainingDaysDisplay = $remainingSeconds === null ? null : (int) ceil($remainingSeconds / 86400);
 
     $remainingLabel = $hasLifetime
         ? 'Lifetime'
         : (($remainingSeconds ?? 0) <= 0
             ? 'Kein aktiver VIP-Zugang'
-            : ($remainingDays > 0 ? $remainingDays . ' Tage verbleibend' : '< 1 Tag verbleibend'));
+            : $remainingDaysDisplay . ' Tage verbleibend');
 
     return [
         'deposited_total' => $depositedTotal,
         'remaining_days' => $remainingDays,
+        'remaining_days_display' => $remainingDaysDisplay,
         'remaining_seconds' => $remainingSeconds,
         'has_lifetime' => $hasLifetime,
         'access_type' => $hasLifetime ? 'lifetime' : (($remainingSeconds ?? 0) > 0 ? 'timed' : 'none'),

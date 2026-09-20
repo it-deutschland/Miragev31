@@ -39,3 +39,25 @@ function currentPath(): string
     $uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
     return strtok($uri, '?') ?: '/';
 }
+
+
+function voucherStatusMeta(): array
+{
+    return [
+        'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning'],
+        'proofed' => ['label' => 'Bestätigt', 'badge' => 'success'],
+        'invalid' => ['label' => 'Ungültig', 'badge' => 'danger'],
+    ];
+}
+
+function voucherStatusLabel(string $status): string
+{
+    $meta = voucherStatusMeta();
+    return $meta[$status]['label'] ?? $meta['pending']['label'];
+}
+
+function voucherStatusBadge(string $status): string
+{
+    $meta = voucherStatusMeta();
+    return $meta[$status]['badge'] ?? $meta['pending']['badge'];
+}

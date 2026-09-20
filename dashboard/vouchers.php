@@ -52,14 +52,6 @@ $remainingLabel = $hasLifetime
     ? 'Lifetime'
     : ($remainingDays > 0 ? $remainingDays . ' Tage verbleibend' : 'Kein aktiver VIP-Zugang');
 
-$statusLabel = static function (string $status): string {
-    return $status === 'proofed' ? 'Bestätigt' : ($status === 'invalid' ? 'Ungültig' : 'In Bearbeitung');
-};
-
-$statusBadge = static function (string $status): string {
-    return $status === 'proofed' ? 'success' : ($status === 'invalid' ? 'danger' : 'warning');
-};
-
 $title = 'Crypto Voucher einreichen & kaufen';
 $showSidebar = true;
 $sidebarRole = 'user';
@@ -120,7 +112,7 @@ require __DIR__ . '/../includes/header.php';
                         <tr>
                             <td>#<?= e((string) $voucher['id']) ?></td>
                             <td><?= e((string) $voucher['amount']) ?> €</td>
-                            <td><span class="badge text-bg-<?= e($statusBadge($status)) ?>"><?= e($statusLabel($status)) ?></span></td>
+                            <td><span class="badge text-bg-<?= e(voucherStatusBadge($status)) ?>"><?= e(voucherStatusLabel($status)) ?></span></td>
                             <td><?= e((string) $voucher['submitted_at']) ?></td>
                         </tr>
                     <?php endforeach; ?>

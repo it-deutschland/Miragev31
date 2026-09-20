@@ -139,9 +139,16 @@ require __DIR__ . '/../includes/header.php';
                     <h3>2) Voucher Code einreichen</h3>
                     <p class="text-secondary mb-2">Reiche deinen Code über die Voucher-Seite ein und verfolge den Status:</p>
                     <ul class="panel-list">
-                        <li><strong>Bestätigt</strong><span class="small-muted">Wenn der Datenbank-Status auf <code>proofed</code> steht.</span></li>
-                        <li><strong>Ungültig</strong><span class="small-muted">Wenn der Datenbank-Status auf <code>invalid</code> steht.</span></li>
-                        <li><strong>In Bearbeitung</strong><span class="small-muted">Solange keiner der beiden Status gesetzt wurde.</span></li>
+                        <?php foreach (['proofed', 'invalid', 'pending'] as $statusCode): ?>
+                            <li>
+                                <strong><?= e(voucherStatusLabel($statusCode)) ?></strong>
+                                <span class="small-muted">
+                                    <?= $statusCode === 'pending'
+                                        ? 'Solange keiner der beiden Status gesetzt wurde.'
+                                        : 'Wenn der Datenbank-Status auf <code>' . e($statusCode) . '</code> steht.' ?>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                     <p class="text-secondary mt-3 mb-3">VIP-Zugang je bestätigtem Voucher: 50 € = 1 Monat, 75 € = 2 Monate, 150 € = Lifetime.</p>
                     <a class="btn btn-primary" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Zur Voucher-Seite</a>

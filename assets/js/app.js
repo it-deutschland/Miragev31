@@ -87,6 +87,8 @@ document.querySelectorAll('[data-payment-filter]').forEach((select) => {
       const methods = (card.getAttribute('data-methods') || '').split(',').map((item) => item.trim());
       const visible = selected === 'all' || methods.includes(selected);
       card.setAttribute('data-hidden', visible ? 'false' : 'true');
+      card.hidden = !visible;
+      card.setAttribute('aria-hidden', visible ? 'false' : 'true');
     });
   };
 

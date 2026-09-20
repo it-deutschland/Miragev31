@@ -1,14 +1,12 @@
 -- Zusätzlicher Import nach database/schema.sql
 -- Für bestehende Installationen: setzt den Voucher-Amount-Check auf
 -- 5, 10, 25, 50, 100, 150, 200, 250
+-- Erfordert CHECK-Constraint-Support (MySQL >= 8.0.16 oder MariaDB >= 10.2.x)
 
 SET @drop_check_sql := (
     SELECT IF(
         COUNT(*) > 0,
-        CONCAT(
-            'ALTER TABLE cryptovouchers ',
-            IF(LOCATE('MariaDB', VERSION()) > 0, 'DROP CONSTRAINT chk_voucher_amount', 'DROP CHECK chk_voucher_amount')
-        ),
+        'ALTER TABLE cryptovouchers DROP CHECK chk_voucher_amount',
         'SELECT 1'
     )
     FROM information_schema.table_constraints

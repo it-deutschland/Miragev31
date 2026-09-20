@@ -37,6 +37,7 @@ mysql -u <user> -p <db_name> < database/voucher_amounts_import.sql
 ```
 
 Hinweis: Diese Zusatzdatei ist primär für bestehende Installationen/Upgrades gedacht. Bei einem frischen Setup reicht `database/schema.sql`.
+Hinweis: Der Upgrade-Import setzt CHECK-Constraint-Support voraus (MySQL >= 8.0.16 oder MariaDB >= 10.2.x).
 
 Zusätzlich für das Ticket-System:
 

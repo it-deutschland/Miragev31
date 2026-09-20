@@ -45,21 +45,28 @@ function voucherStatusMeta(): array
 {
     return [
         'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning', 'description' => 'Der Voucher wird aktuell geprüft.'],
-        'proofed' => ['label' => 'Bestätigt', 'badge' => 'success', 'description' => 'Der Voucher wurde erfolgreich bestätigt und aktiviert.'],
+        'confirmed' => ['label' => 'Bestätigt', 'badge' => 'success', 'description' => 'Der Voucher wurde erfolgreich bestätigt und aktiviert.'],
         'invalid' => ['label' => 'Ungültig', 'badge' => 'danger', 'description' => 'Der Voucher konnte nicht bestätigt werden.'],
     ];
+}
+
+function normalizeVoucherStatus(string $status): string
+{
+    return $status === 'proofed' ? 'confirmed' : $status;
 }
 
 function voucherStatusLabel(string $status): string
 {
     $meta = voucherStatusMeta();
-    return $meta[$status]['label'] ?? $meta['pending']['label'];
+    $normalized = normalizeVoucherStatus($status);
+    return $meta[$normalized]['label'] ?? $meta['pending']['label'];
 }
 
 function voucherStatusBadge(string $status): string
 {
     $meta = voucherStatusMeta();
-    return $meta[$status]['badge'] ?? $meta['pending']['badge'];
+    $normalized = normalizeVoucherStatus($status);
+    return $meta[$normalized]['badge'] ?? $meta['pending']['badge'];
 }
 
 function buildVipOverview(array $vouchers): array
@@ -72,7 +79,7 @@ function buildVipOverview(array $vouchers): array
     foreach ($vouchers as $voucher) {
         $amount = (int) ($voucher['amount'] ?? 0);
         $rule = VOUCHER_ACCESS_RULES[$amount] ?? null;
-        if ((string) ($voucher['status'] ?? '') !== 'proofed') {
+        if (normalizeVoucherStatus((string) ($voucher['status'] ?? '')) !== 'confirmed') {
             continue;
         }
         if (!is_array($rule)) {

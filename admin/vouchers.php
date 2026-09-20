@@ -53,8 +53,8 @@ if (requestMethod() === 'POST') {
         if (!$allowed) {
             $flash = ['type' => 'danger', 'msg' => 'Statusänderung nicht erlaubt.'];
         } else {
-            $upd = db()->prepare('UPDATE cryptovouchers SET status = ?, processed_at = NOW(), processed_by = ? WHERE id = ?');
-            $upd->execute([$action, (int) $admin['id'], $voucherId]);
+            $upd = db()->prepare("UPDATE cryptovouchers SET status = ?, processed_at = CASE WHEN ? = 'proofed' AND status = 'proofed' THEN processed_at ELSE NOW() END, processed_by = ? WHERE id = ?");
+            $upd->execute([$action, $action, (int) $admin['id'], $voucherId]);
             logAdminAction((int) $admin['id'], 'voucher_status_change', 'voucher', $voucherId, ['status' => $action]);
             $flash = ['type' => 'success', 'msg' => 'Voucher aktualisiert.'];
         }

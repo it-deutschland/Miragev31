@@ -145,7 +145,7 @@ require __DIR__ . '/../includes/header.php';
                                 <span class="small-muted">
                                     <?= $statusCode === 'pending'
                                         ? 'Solange keiner der beiden Status gesetzt wurde.'
-                                        : 'Wenn der Datenbank-Status auf <code>' . e($statusCode) . '</code> steht.' ?>
+                                        : 'Wenn der Datenbank-Status auf "' . e($statusCode) . '" steht.' ?>
                                 </span>
                             </li>
                         <?php endforeach; ?>

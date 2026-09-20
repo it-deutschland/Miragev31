@@ -99,7 +99,6 @@ document.querySelectorAll('[data-payment-filter]').forEach((select) => {
       const visible = selected === 'all' || methods.includes(selected);
       card.setAttribute('data-hidden', visible ? 'false' : 'true');
       card.hidden = !visible;
-      card.setAttribute('aria-hidden', visible ? 'false' : 'true');
       if (visible) {
         visibleCount += 1;
       }

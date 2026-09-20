@@ -5,7 +5,10 @@
 SET @drop_check_sql := (
     SELECT IF(
         COUNT(*) > 0,
-        'ALTER TABLE cryptovouchers DROP CHECK chk_voucher_amount',
+        CONCAT(
+            'ALTER TABLE cryptovouchers ',
+            IF(LOCATE('MariaDB', VERSION()) > 0, 'DROP CONSTRAINT chk_voucher_amount', 'DROP CHECK chk_voucher_amount')
+        ),
         'SELECT 1'
     )
     FROM information_schema.table_constraints

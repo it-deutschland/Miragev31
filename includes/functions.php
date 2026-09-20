@@ -117,11 +117,19 @@ function buildVipOverview(array $vouchers): array
     );
 
     $activeUntilTs = 0;
+    $utc = new DateTimeZone('UTC');
+    $activeUntilAt = null;
     foreach ($timedVouchers as $timedVoucher) {
         $startTs = (int) $timedVoucher['start_ts'];
         $durationDays = (int) $timedVoucher['duration_days'];
-        $effectiveStart = max($startTs, $activeUntilTs);
-        $activeUntilTs = $effectiveStart + ($durationDays * 86400);
+        $startAt = (new DateTimeImmutable('@' . $startTs))->setTimezone($utc);
+        $effectiveStartAt = $activeUntilAt instanceof DateTimeImmutable && $activeUntilAt > $startAt
+            ? $activeUntilAt
+            : $startAt;
+        $activeUntilAt = $effectiveStartAt->add(new DateInterval('P' . $durationDays . 'D'));
+    }
+    if ($activeUntilAt instanceof DateTimeImmutable) {
+        $activeUntilTs = $activeUntilAt->getTimestamp();
     }
 
     $remainingSeconds = $hasLifetime

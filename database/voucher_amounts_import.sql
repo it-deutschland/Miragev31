@@ -6,7 +6,7 @@
 SET @drop_check_sql := (
     SELECT IF(
         COUNT(*) > 0,
-        'ALTER TABLE cryptovouchers DROP CHECK chk_voucher_amount',
+        'ALTER TABLE cryptovouchers DROP CONSTRAINT chk_voucher_amount',
         'SELECT 1'
     )
     FROM information_schema.table_constraints

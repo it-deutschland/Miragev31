@@ -36,7 +36,7 @@ Zusätzlich für die erweiterten Voucher-Beträge:
 mysql -u <user> -p <db_name> < database/voucher_amounts_import.sql
 ```
 
-Hinweis: `database/schema.sql` muss vorher importiert sein.
+Hinweis: Diese Zusatzdatei ist primär für bestehende Installationen/Upgrades gedacht. Bei einem frischen Setup reicht `database/schema.sql`.
 
 Zusätzlich für das Ticket-System:
 

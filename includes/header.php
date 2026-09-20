@@ -49,16 +49,23 @@ $sidebarRoutePath = static function (string $path): string {
         </div>
         <nav class="nav flex-column gap-2">
             <?php if ($sidebarRole === 'admin'): ?>
-                <a class="nav-link" href="<?= e(appUrl('/admin/dashboard')) ?>">Dashboard</a>
-                <a class="nav-link" href="<?= e(appUrl('/admin/vouchers')) ?>">Voucher</a>
+                <?php $adminDashboardPath = $sidebarRoutePath('/admin/dashboard'); ?>
+                <?php $adminVoucherPath = $sidebarRoutePath('/admin/vouchers'); ?>
+                <?php $adminTicketPath = $sidebarRoutePath('/admin/tickets'); ?>
+                <?php $adminUsersPath = $sidebarRoutePath('/admin/users'); ?>
+                <?php $adminLogsPath = $sidebarRoutePath('/admin/logs'); ?>
+                <?php $adminAdminsPath = $sidebarRoutePath('/admin/admins'); ?>
+                <?php $adminEditPath = $sidebarRoutePath('/admin/edit'); ?>
+                <a class="nav-link<?= $currentSidebarPath === $adminDashboardPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/dashboard')) ?>"<?= $currentSidebarPath === $adminDashboardPath ? ' aria-current="page"' : '' ?>>Dashboard</a>
+                <a class="nav-link<?= $currentSidebarPath === $adminVoucherPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/vouchers')) ?>"<?= $currentSidebarPath === $adminVoucherPath ? ' aria-current="page"' : '' ?>>Voucher</a>
                 <?php if (canProcessTickets($admin)): ?>
-                    <a class="nav-link" href="<?= e(appUrl('/admin/tickets')) ?>">Tickets</a>
+                    <a class="nav-link<?= $currentSidebarPath === $adminTicketPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/tickets')) ?>"<?= $currentSidebarPath === $adminTicketPath ? ' aria-current="page"' : '' ?>>Tickets</a>
                 <?php endif; ?>
                 <?php if ((int)$admin['rank'] === 3): ?>
-                    <a class="nav-link" href="<?= e(appUrl('/admin/users')) ?>">Benutzer</a>
-                    <a class="nav-link" href="<?= e(appUrl('/admin/logs')) ?>">Logs</a>
-                    <a class="nav-link" href="<?= e(appUrl('/admin/admins')) ?>">Admins</a>
-                    <a class="nav-link" href="<?= e(appUrl('/admin/edit')) ?>">Audit Edit</a>
+                    <a class="nav-link<?= $currentSidebarPath === $adminUsersPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/users')) ?>"<?= $currentSidebarPath === $adminUsersPath ? ' aria-current="page"' : '' ?>>Benutzer</a>
+                    <a class="nav-link<?= $currentSidebarPath === $adminLogsPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/logs')) ?>"<?= $currentSidebarPath === $adminLogsPath ? ' aria-current="page"' : '' ?>>Logs</a>
+                    <a class="nav-link<?= $currentSidebarPath === $adminAdminsPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/admins')) ?>"<?= $currentSidebarPath === $adminAdminsPath ? ' aria-current="page"' : '' ?>>Admins</a>
+                    <a class="nav-link<?= $currentSidebarPath === $adminEditPath ? ' active' : '' ?>" href="<?= e(appUrl('/admin/edit')) ?>"<?= $currentSidebarPath === $adminEditPath ? ' aria-current="page"' : '' ?>>Audit Edit</a>
                 <?php endif; ?>
                 <form method="post" action="<?= e(appUrl('/admin/logout')) ?>">
                     <?php require_once __DIR__ . '/csrf.php'; ?>

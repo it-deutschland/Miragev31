@@ -20,16 +20,7 @@ EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
 SET @add_check_sql := (
-    SELECT IF(
-        COUNT(*) = 0,
-        'ALTER TABLE cryptovouchers ADD CONSTRAINT chk_voucher_amount CHECK (amount IN (5,10,25,50,100,150,200,250))',
-        'SELECT 1'
-    )
-    FROM information_schema.table_constraints
-    WHERE constraint_schema = DATABASE()
-      AND table_name = 'cryptovouchers'
-      AND constraint_name = 'chk_voucher_amount'
-      AND constraint_type = 'CHECK'
+    'ALTER TABLE cryptovouchers ADD CONSTRAINT chk_voucher_amount CHECK (amount IN (5,10,25,50,100,150,200,250))'
 );
 
 PREPARE stmt FROM @add_check_sql;

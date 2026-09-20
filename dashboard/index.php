@@ -100,7 +100,8 @@ require __DIR__ . '/../includes/header.php';
                     </ul>
                     <p class="text-secondary mt-3 mb-3">
                         VIP-Zugang je bestätigtem Voucher:
-                        <?= e(implode(', ', voucherAccessRuleLines())) ?>.
+                        <?php $ruleLines = array_map(static fn (array $entry): string => (string) $entry['line'], voucherAccessRuleEntries()); ?>
+                        <?= e(implode(', ', $ruleLines)) ?>.
                     </p>
                     <a class="btn btn-primary" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Zur Voucher-Seite</a>
                 </article>

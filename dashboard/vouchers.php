@@ -50,9 +50,8 @@ require __DIR__ . '/../includes/header.php';
             </form>
             <div class="muted-divider my-4"></div>
             <ul class="panel-list mb-0">
-                <?php foreach (voucherAccessRuleLines() as $ruleLine): ?>
-                    <?php [$amountLabel, $accessLabel] = array_pad(explode(' = ', $ruleLine, 2), 2, 'VIP Zugang'); ?>
-                    <li><strong><?= e($amountLabel) ?></strong><span class="small-muted"><?= e($accessLabel) ?></span></li>
+                <?php foreach (voucherAccessRuleEntries() as $entry): ?>
+                    <li><strong><?= e((string) $entry['amount_label']) ?></strong><span class="small-muted"><?= e((string) $entry['access_label']) ?></span></li>
                 <?php endforeach; ?>
             </ul>
         </div>

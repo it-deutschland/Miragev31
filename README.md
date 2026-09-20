@@ -44,6 +44,8 @@ Zusätzlich für das Ticket-System:
 mysql -u <user> -p <db_name> < database/ticket_system.sql
 ```
 
+Hinweis: `database/schema.sql` muss vorher importiert sein, da `ticket_system.sql` auf `users` und `admins` referenziert.
+
 ## 5) Konfiguration
 
 1. `.env.example` nach `.env` kopieren.

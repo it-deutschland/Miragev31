@@ -99,7 +99,10 @@ function buildVipOverview(array $vouchers): array
             continue;
         }
 
-        $start = (string) (($voucher['processed_at'] ?? '') ?: ($voucher['submitted_at'] ?? ''));
+        $start = (string) ($voucher['processed_at'] ?? '');
+        if ($start === '') {
+            continue;
+        }
         $startTs = strtotime($start);
         if ($startTs === false) {
             continue;

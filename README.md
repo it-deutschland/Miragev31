@@ -30,7 +30,7 @@ Empfohlen:
 mysql -u <user> -p <db_name> < database/schema.sql
 ```
 
-Zusätzlich für die erweiterten Voucher-Beträge:
+Nur für bestehende Installationen (Upgrade) – zusätzliche Anpassung für erweiterte Voucher-Beträge:
 
 ```bash
 mysql -u <user> -p <db_name> < database/voucher_amounts_import.sql

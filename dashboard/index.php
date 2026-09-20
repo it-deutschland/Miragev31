@@ -2,12 +2,22 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
 
 $user = requireUser();
+
+$voucherStmt = db()->prepare('SELECT amount, status, submitted_at, processed_at FROM cryptovouchers WHERE user_id = ? ORDER BY submitted_at DESC');
+$voucherStmt->execute([(int) $user['id']]);
+$vouchers = $voucherStmt->fetchAll();
+$vipOverview = buildVipOverview($vouchers);
+$depositedTotal = (int) ($vipOverview['deposited_total'] ?? 0);
+$remainingLabel = (string) ($vipOverview['remaining_label'] ?? 'Kein aktiver VIP-Zugang');
+
 $title = 'Dashboard';
+$showSidebar = true;
+$sidebarRole = 'user';
 require __DIR__ . '/../includes/header.php';
 ?>
 <section class="app-card hero-banner reveal-up mb-4">
@@ -18,67 +28,90 @@ require __DIR__ . '/../includes/header.php';
         <div class="hero-copy">
             <span class="cyber-chip">VIP Dashboard</span>
             <h1 class="hero-title mt-3 mb-3">Willkommen zurück, <?= e($user['name']) ?></h1>
-            <p class="mb-0">Dein Zugang und der Voucher-Ablauf bleiben unverändert, werden nun aber in einer futuristischen Mirage-Oberfläche mit mehr Tiefe, Licht und Bewegung präsentiert.</p>
+            <p class="mb-0">Name, Telegram-ID, bestätigte Einzahlungen und verbleibende VIP-Laufzeit stehen für dich direkt auf einen Blick bereit.</p>
             <div class="hero-meta">
-                <span class="cyber-chip">@<?= e((string)($user['telegram_username'] ?? 'guest')) ?></span>
                 <span class="cyber-chip">Telegram ID <?= e((string) $user['telegram_id']) ?></span>
+                <span class="cyber-chip">Eingezahlt (bestätigt): <?= e((string) $depositedTotal) ?> €</span>
+                <span class="cyber-chip">Laufzeit: <?= e($remainingLabel) ?></span>
             </div>
         </div>
     </div>
 </section>
 
-<div class="row g-4 dashboard-grid">
-    <div class="col-lg-5">
-        <div class="app-card p-4 fade-in h-100 fx-tilt" data-tilt-card>
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="app-card p-4 h-100">
             <span class="cyber-chip">Profil</span>
             <h2 class="h4 mt-3">Dein Zugang</h2>
             <ul class="panel-list mt-4">
                 <li><strong>Name</strong><span class="small-muted"><?= e($user['name']) ?></span></li>
-                <li><strong>Username</strong><span class="small-muted">@<?= e($user['telegram_username'] ?? '-') ?></span></li>
                 <li><strong>Telegram ID</strong><span class="small-muted"><?= e((string) $user['telegram_id']) ?></span></li>
+                <li><strong>Eingezahlt (bestätigt)</strong><span class="small-muted"><?= e((string) $depositedTotal) ?> €</span></li>
+                <li><strong>Verbleibende Laufzeit</strong><span class="small-muted"><?= e($remainingLabel) ?></span></li>
             </ul>
         </div>
     </div>
-    <div class="col-lg-7">
-        <div class="app-card p-4 fade-in h-100">
-            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
-                <div>
-                    <span class="cyber-chip">Voucher Flow</span>
-                    <h2 class="h4 mt-3 mb-0">Cryptovoucher einlösen</h2>
-                </div>
-                <div class="feature-stack">
-                    <span class="cyber-chip">Secure Submit</span>
-                    <span class="cyber-chip">Instant Review</span>
-                </div>
-            </div>
-            <p class="text-secondary">Wählen Sie Ihren Betrag und reichen Sie den Code wie gewohnt ein.</p>
-            <form method="post" action="<?= e(appUrl('/payment/voucher')) ?>">
-                <?= csrfField('voucher_submit') ?>
-                <div class="mb-3">
-                    <label class="form-label">Betrag</label>
-                    <div class="amount-grid">
-                        <?php foreach (ALLOWED_AMOUNTS as $amount): ?>
-                            <?php $amountId = 'amount_' . $amount; ?>
-                            <input class="amount-input" type="radio" id="<?= e($amountId) ?>" name="amount" value="<?= e((string)$amount) ?>" required>
-                            <label class="amount-card" for="<?= e($amountId) ?>">
-                                <span><?= e((string)$amount) ?> €</span>
-                            </label>
+    <div class="col-lg-8">
+        <div class="app-card p-4 h-100">
+            <span class="cyber-chip">3-Step Guide</span>
+            <h2 class="h4 mt-3 mb-4">So bekommst du deinen VIP-Zugang</h2>
+
+            <div class="step-flow">
+                <article class="step-box">
+                    <h3>1) Crypto Voucher Code kaufen</h3>
+                    <p class="text-secondary">Nach Bekanntheitsgrad sortiert. Nutze den Filter nach Zahlungsmethode:</p>
+                    <div data-payment-scope>
+                    <div class="mb-3">
+                        <label class="form-label" for="dashboard_payment_filter">Zahlungsmethode filtern</label>
+                        <select class="form-select" id="dashboard_payment_filter" data-payment-filter>
+                            <option value="all">Alle Zahlungsmethoden</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="apple-pay">Apple Pay</option>
+                            <option value="klarna">Klarna</option>
+                            <option value="paysafecard">Paysafecard</option>
+                            <option value="visa-mastercard">Visa/Mastercard</option>
+                        </select>
+                    </div>
+                    <div class="voucher-shops">
+                        <?php foreach (voucherShopProviders() as $provider): ?>
+                            <div class="voucher-shop" data-payment-card data-methods="<?= e(implode(',', $provider['methods'])) ?>">
+                                <h4><a href="<?= e($provider['url']) ?>" target="_blank" rel="noopener noreferrer"><?= e($provider['name']) ?></a></h4>
+                                <p class="mb-2"><?= e($provider['description']) ?></p>
+                                <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2"><?= e($provider['methods_label']) ?></p></details>
+                            </div>
                         <?php endforeach; ?>
                     </div>
+                    <p class="text-secondary mt-3 mb-0">Hinweis: Einreichbar sind 5 €, 10 €, 25 €, 50 €, 100 €, 150 €, 200 € und 250 €. Die VIP-Laufzeit wird primär über 50 € (1 Monat), 100 € (2 Monate) und 150 € (Lifetime) gewertet.</p>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="voucher_code">Cryptovoucher Code</label>
-                    <input class="form-control" id="voucher_code" name="voucher_code" maxlength="255" minlength="6" required placeholder="Voucher Code eingeben">
-                </div>
-                <button class="btn btn-primary" type="submit">Voucher einreichen</button>
-            </form>
-            <div class="muted-divider my-4"></div>
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                <div>
-                    <span class="cyber-chip">Support</span>
-                    <p class="text-secondary mb-0 mt-2">Hast du Fragen? Erstelle und verwalte deine Tickets direkt im Dashboard.</p>
-                </div>
-                <a class="btn btn-outline-info" href="<?= e(appUrl('/dashboard/tickets')) ?>">Zum Ticket-Center</a>
+                </article>
+
+                <div class="step-arrow">↓</div>
+
+                <article class="step-box">
+                    <h3>2) Voucher Code einreichen</h3>
+                    <p class="text-secondary mb-2">Reiche deinen Code über die Voucher-Seite ein und verfolge den Status:</p>
+                    <ul class="panel-list">
+                        <?php foreach (voucherStatusMeta() as $statusCode => $statusConfig): ?>
+                            <li>
+                                <strong><?= e(voucherStatusLabel($statusCode)) ?></strong>
+                                <span class="small-muted"><?= e((string) ($statusConfig['description'] ?? '')) ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <p class="text-secondary mt-3 mb-3">
+                        VIP-Zugang je bestätigtem Voucher:
+                        <?php $ruleLines = array_map(static fn (array $entry): string => (string) $entry['line'], voucherAccessRuleEntries()); ?>
+                        <?= e(implode(', ', $ruleLines)) ?>.
+                    </p>
+                    <a class="btn btn-primary" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Zur Voucher-Seite</a>
+                </article>
+
+                <div class="step-arrow">↓</div>
+
+                <article class="step-box">
+                    <h3>3) VIP Einladung erhalten</h3>
+                    <p class="text-secondary mb-0">Nach erfolgreicher Bestätigung wird dein Zugang aktiviert. Danach kannst du die VIP-Unterhaltung genießen.</p>
+                </article>
             </div>
         </div>
     </div>

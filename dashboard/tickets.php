@@ -116,6 +116,8 @@ if ($selectedTicket) {
 }
 
 $title = 'Ticket Center';
+$showSidebar = true;
+$sidebarRole = 'user';
 require __DIR__ . '/../includes/header.php';
 ?>
 <?php if ($flash): ?><div class="alert alert-<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div><?php endif; ?>

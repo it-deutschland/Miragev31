@@ -514,6 +514,45 @@ a:hover {
     background: linear-gradient(90deg, rgba(229, 187, 255, 0), rgba(229, 187, 255, 0.4), rgba(229, 187, 255, 0));
 }
 
+.step-flow {
+    display: grid;
+    gap: 1rem;
+}
+
+.step-box {
+    padding: 1rem;
+    border: 1px solid rgba(229, 187, 255, 0.18);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.step-box h3 {
+    font-size: 1.08rem;
+    margin-bottom: 0.8rem;
+}
+
+.step-arrow {
+    text-align: center;
+    font-size: 1.3rem;
+    color: rgba(241, 201, 255, 0.85);
+}
+
+.voucher-shops {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.voucher-shop {
+    padding: 0.9rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(229, 187, 255, 0.13);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.voucher-shop[data-hidden="true"] {
+    display: none;
+}
+
 @keyframes riseIn {
     from {
         opacity: 0;

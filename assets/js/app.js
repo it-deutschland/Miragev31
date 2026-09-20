@@ -76,3 +76,39 @@ document.querySelectorAll('.amount-grid').forEach((grid) => {
   grid.addEventListener('change', updateSelection);
   updateSelection();
 });
+
+document.querySelectorAll('[data-payment-filter]').forEach((select) => {
+  const scope = select.closest('[data-payment-scope]') || document;
+  const cards = scope.querySelectorAll('[data-payment-card]');
+  let liveRegion = scope.querySelector('[data-payment-filter-status]');
+
+  if (!liveRegion) {
+    liveRegion = document.createElement('div');
+    liveRegion.className = 'visually-hidden';
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('role', 'status');
+    liveRegion.setAttribute('data-payment-filter-status', '');
+    scope.appendChild(liveRegion);
+  }
+
+  const applyFilter = () => {
+    const selected = select.value;
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const methods = (card.getAttribute('data-methods') || '').split(',').map((item) => item.trim());
+      const visible = selected === 'all' || methods.includes(selected);
+      card.setAttribute('data-hidden', visible ? 'false' : 'true');
+      card.hidden = !visible;
+      if (visible) {
+        visibleCount += 1;
+      }
+    });
+    const selectedText = selected === 'all'
+      ? 'Alle Zahlungsmethoden'
+      : (select.options[select.selectedIndex]?.text || selected);
+    liveRegion.textContent = `${visibleCount} Anbieter angezeigt für: ${selectedText}`;
+  };
+
+  select.addEventListener('change', applyFilter);
+  applyFilter();
+});

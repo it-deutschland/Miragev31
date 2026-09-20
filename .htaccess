@@ -6,7 +6,9 @@ RewriteRule ^ - [L]
 
 RewriteRule ^login/telegram/?$ login/telegram.php [L,QSA]
 RewriteRule ^dashboard/?$ dashboard/index.php [L,QSA]
+RewriteRule ^dashboard/vouchers/?$ dashboard/vouchers.php [L,QSA]
 RewriteRule ^dashboard/tickets/?$ dashboard/tickets.php [L,QSA]
+RewriteRule ^logout/?$ logout.php [L,QSA]
 RewriteRule ^payment/voucher/?$ payment/voucher.php [L,QSA]
 
 RewriteRule ^admin/?$ admin/index.php [L,QSA]

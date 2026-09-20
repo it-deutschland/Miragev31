@@ -82,11 +82,12 @@ function buildVipOverview(array $vouchers): array
         if (normalizeVoucherStatus((string) ($voucher['status'] ?? '')) !== 'confirmed') {
             continue;
         }
+
+        $depositedTotal += $amount;
+
         if (!is_array($rule)) {
             continue;
         }
-
-        $depositedTotal += $amount;
 
         if (!empty($rule['lifetime'])) {
             $hasLifetime = true;

@@ -64,7 +64,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 const VOUCHER_ACCESS_RULES = [
     50 => ['days' => 30, 'label' => '1 Monat VIP Zugang'],
-    75 => ['days' => 60, 'label' => '2 Monate VIP Zugang'],
+    100 => ['days' => 60, 'label' => '2 Monate VIP Zugang'],
     150 => ['lifetime' => true, 'label' => 'Lifetime VIP Zugang'],
 ];
-const ALLOWED_AMOUNTS = [50, 75, 150];
+const ALLOWED_AMOUNTS = [5, 10, 25, 50, 100, 150, 200, 250];

@@ -92,7 +92,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="app-card p-4 mt-4">
     <span class="cyber-chip">Crypto Voucher kaufen</span>
     <h2 class="h4 mt-3">Anbieter (nach Bekanntheitsgrad)</h2>
-    <p class="text-secondary mt-2 mb-0">Für Einreichungen in diesem Dashboard werden nur Voucher mit 50 €, 75 € und 150 € akzeptiert.</p>
+    <p class="text-secondary mt-2 mb-0">Einreichbar sind 5 €, 10 €, 25 €, 50 €, 100 €, 150 €, 200 € und 250 €. Für VIP-Laufzeit gelten primär 50 € (1 Monat), 100 € (2 Monate) und 150 € (Lifetime).</p>
     <div data-payment-scope>
     <div class="mb-3 mt-3">
         <label class="form-label" for="voucher_payment_filter">Nach Zahlungsmethode filtern</label>

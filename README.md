@@ -30,13 +30,13 @@ Empfohlen:
 mysql -u <user> -p <db_name> < database/schema.sql
 ```
 
-Zusätzlich für das Ticket-System:
+Zusätzlich für die erweiterten Voucher-Beträge:
 
 ```bash
-mysql -u <user> -p <db_name> < database/ticket_system.sql
+mysql -u <user> -p <db_name> < database/voucher_amounts_import.sql
 ```
 
-Hinweis: `database/schema.sql` muss vorher importiert sein, da `ticket_system.sql` auf `users` und `admins` referenziert.
+Hinweis: `database/schema.sql` muss vorher importiert sein.
 
 ## 5) Konfiguration
 

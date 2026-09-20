@@ -81,7 +81,7 @@ require __DIR__ . '/../includes/header.php';
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <p class="text-secondary mt-3 mb-0">Hinweis für Einreichung im Dashboard: unterstützt sind aktuell nur 50 €, 75 € und 150 €.</p>
+                    <p class="text-secondary mt-3 mb-0">Hinweis: Einreichbar sind 5 €, 10 €, 25 €, 50 €, 100 €, 150 €, 200 € und 250 €. Die VIP-Laufzeit wird primär über 50 € (1 Monat), 100 € (2 Monate) und 150 € (Lifetime) gewertet.</p>
                 </div>
                 </article>
 

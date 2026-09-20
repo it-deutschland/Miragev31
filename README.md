@@ -38,7 +38,11 @@ mysql -u <user> -p <db_name> < database/voucher_amounts_import.sql
 
 Hinweis: `database/schema.sql` muss vorher importiert sein.
 
-Für das Ticket-System müssen zusätzlich die Tabellen `tickets` und `ticket_messages` vorhanden sein.
+Zusätzlich für das Ticket-System:
+
+```bash
+mysql -u <user> -p <db_name> < database/ticket_system.sql
+```
 
 ## 5) Konfiguration
 

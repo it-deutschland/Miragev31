@@ -143,7 +143,7 @@ function buildVipOverview(array $vouchers): array
         ? 'Lifetime'
         : (($remainingSeconds ?? 0) <= 0
             ? 'Kein aktiver VIP-Zugang'
-            : $remainingDaysDisplay . ' Tage verbleibend');
+            : ($remainingDaysDisplay === 1 ? '1 Tag verbleibend' : $remainingDaysDisplay . ' Tage verbleibend'));
 
     return [
         'deposited_total' => $depositedTotal,
@@ -160,9 +160,12 @@ function buildVipOverview(array $vouchers): array
 function voucherAccessRuleEntries(): array
 {
     $entries = [];
-    foreach (VOUCHER_ACCESS_RULES as $amount => $rule) {
+    foreach (ALLOWED_AMOUNTS as $amount) {
+        $rule = VOUCHER_ACCESS_RULES[$amount] ?? null;
         $amountLabel = $amount . ' €';
-        $accessLabel = (string) ($rule['label'] ?? 'VIP Zugang');
+        $accessLabel = (string) (is_array($rule)
+            ? ($rule['label'] ?? 'VIP Zugang')
+            : 'Einreichbar (ohne zusätzliche VIP-Laufzeit)');
         $entries[] = [
             'amount' => (int) $amount,
             'amount_label' => $amountLabel,

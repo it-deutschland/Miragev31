@@ -12,6 +12,12 @@ $sidebarRole = $sidebarRole ?? (is_array($admin) ? 'admin' : (is_array($user) ? 
 $layoutHasSidebar = $showSidebar && in_array($sidebarRole, ['admin', 'user'], true);
 $mirageHeaderImage = $mirageHeaderImage ?? appUrl('/assets/img/mirage-vip-header.svg');
 $mirageLogoImage = $mirageLogoImage ?? appUrl('/assets/img/mirage-vip-logo.svg');
+$currentSidebarPath = rtrim(currentPath(), '/') ?: '/';
+$sidebarRoutePath = static function (string $path): string {
+    $full = appUrl($path);
+    $parsedPath = (string) parse_url($full, PHP_URL_PATH);
+    return rtrim($parsedPath, '/') ?: '/';
+};
 ?><!doctype html>
 <html lang="de">
 <head>
@@ -60,9 +66,12 @@ $mirageLogoImage = $mirageLogoImage ?? appUrl('/assets/img/mirage-vip-logo.svg')
                     <button class="btn btn-outline-danger w-100 mt-3" type="submit">Logout</button>
                 </form>
             <?php elseif ($sidebarRole === 'user'): ?>
-                <a class="nav-link" href="<?= e(appUrl('/dashboard')) ?>">Dashboard Start</a>
-                <a class="nav-link" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Crypto Voucher einreichen & kaufen</a>
-                <a class="nav-link" href="<?= e(appUrl('/dashboard/tickets')) ?>">Support Tickets</a>
+                <?php $dashboardPath = $sidebarRoutePath('/dashboard'); ?>
+                <?php $voucherPath = $sidebarRoutePath('/dashboard/vouchers'); ?>
+                <?php $ticketPath = $sidebarRoutePath('/dashboard/tickets'); ?>
+                <a class="nav-link<?= $currentSidebarPath === $dashboardPath ? ' active' : '' ?>" href="<?= e(appUrl('/dashboard')) ?>"<?= $currentSidebarPath === $dashboardPath ? ' aria-current="page"' : '' ?>>Dashboard Start</a>
+                <a class="nav-link<?= $currentSidebarPath === $voucherPath ? ' active' : '' ?>" href="<?= e(appUrl('/dashboard/vouchers')) ?>"<?= $currentSidebarPath === $voucherPath ? ' aria-current="page"' : '' ?>>Crypto Voucher einreichen & kaufen</a>
+                <a class="nav-link<?= $currentSidebarPath === $ticketPath ? ' active' : '' ?>" href="<?= e(appUrl('/dashboard/tickets')) ?>"<?= $currentSidebarPath === $ticketPath ? ' aria-current="page"' : '' ?>>Support Tickets</a>
                 <form method="post" action="<?= e(appUrl('/logout')) ?>">
                     <?php require_once __DIR__ . '/csrf.php'; ?>
                     <?= csrfField('user_logout') ?>

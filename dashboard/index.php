@@ -139,14 +139,11 @@ require __DIR__ . '/../includes/header.php';
                     <h3>2) Voucher Code einreichen</h3>
                     <p class="text-secondary mb-2">Reiche deinen Code über die Voucher-Seite ein und verfolge den Status:</p>
                     <ul class="panel-list">
+                        <?php $statusMeta = voucherStatusMeta(); ?>
                         <?php foreach (['proofed', 'invalid', 'pending'] as $statusCode): ?>
                             <li>
                                 <strong><?= e(voucherStatusLabel($statusCode)) ?></strong>
-                                <span class="small-muted">
-                                    <?= $statusCode === 'pending'
-                                        ? 'Solange keiner der beiden Status gesetzt wurde.'
-                                        : 'Wenn der Datenbank-Status auf "' . e($statusCode) . '" steht.' ?>
-                                </span>
+                                <span class="small-muted"><?= e((string) ($statusMeta[$statusCode]['description'] ?? '')) ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>

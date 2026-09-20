@@ -44,9 +44,9 @@ function currentPath(): string
 function voucherStatusMeta(): array
 {
     return [
-        'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning'],
-        'proofed' => ['label' => 'Bestätigt', 'badge' => 'success'],
-        'invalid' => ['label' => 'Ungültig', 'badge' => 'danger'],
+        'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning', 'description' => 'Der Voucher wird aktuell geprüft.'],
+        'proofed' => ['label' => 'Bestätigt', 'badge' => 'success', 'description' => 'Der Voucher wurde erfolgreich bestätigt und aktiviert.'],
+        'invalid' => ['label' => 'Ungültig', 'badge' => 'danger', 'description' => 'Der Voucher konnte nicht bestätigt werden.'],
     ];
 }
 

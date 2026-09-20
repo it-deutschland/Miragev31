@@ -76,3 +76,20 @@ document.querySelectorAll('.amount-grid').forEach((grid) => {
   grid.addEventListener('change', updateSelection);
   updateSelection();
 });
+
+document.querySelectorAll('[data-payment-filter]').forEach((select) => {
+  const scope = select.closest('.app-card, main, body');
+  const cards = scope ? scope.querySelectorAll('[data-payment-card]') : [];
+
+  const applyFilter = () => {
+    const selected = select.value;
+    cards.forEach((card) => {
+      const methods = (card.getAttribute('data-methods') || '').split(',').map((item) => item.trim());
+      const visible = selected === 'all' || methods.includes(selected);
+      card.setAttribute('data-hidden', visible ? 'false' : 'true');
+    });
+  };
+
+  select.addEventListener('change', applyFilter);
+  applyFilter();
+});

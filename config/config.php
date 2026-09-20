@@ -62,4 +62,4 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-const ALLOWED_AMOUNTS = [10, 25, 50, 100, 200];
+const ALLOWED_AMOUNTS = [50, 75, 150];

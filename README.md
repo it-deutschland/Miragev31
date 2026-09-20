@@ -76,6 +76,7 @@ Wichtige Routen:
 
 - `/login/telegram`
 - `/dashboard`
+- `/dashboard/vouchers`
 - `/dashboard/tickets`
 - `/payment/voucher`
 - `/admin/login`

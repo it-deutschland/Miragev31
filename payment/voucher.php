@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/security.php';
 
 $user = requireUser();
 if (requestMethod() !== 'POST') {
-    redirect('/dashboard');
+    redirect('/dashboard/vouchers');
 }
 verifyCsrf('voucher_submit');
 

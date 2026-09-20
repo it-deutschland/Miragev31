@@ -109,9 +109,9 @@ function buildVipOverview(array $vouchers): array
         $activeUntilTs = $effectiveStart + ($durationDays * 86400);
     }
 
-    $remainingDays = $activeUntilTs > $nowTs
-        ? (int) ceil(($activeUntilTs - $nowTs) / 86400)
-        : 0;
+    $remainingDays = $hasLifetime
+        ? null
+        : ($activeUntilTs > $nowTs ? (int) ceil(($activeUntilTs - $nowTs) / 86400) : 0);
 
     $remainingLabel = $hasLifetime
         ? 'Lifetime'
@@ -121,6 +121,7 @@ function buildVipOverview(array $vouchers): array
         'deposited_total' => $depositedTotal,
         'remaining_days' => $remainingDays,
         'has_lifetime' => $hasLifetime,
+        'access_type' => $hasLifetime ? 'lifetime' : ($remainingDays > 0 ? 'timed' : 'none'),
         'remaining_label' => $remainingLabel,
     ];
 }

@@ -13,44 +13,9 @@ $voucherStmt = db()->prepare('SELECT id, amount, status, submitted_at, processed
 $voucherStmt->execute([(int) $user['id']]);
 $vouchers = $voucherStmt->fetchAll();
 
-$depositedTotal = 0;
-$remainingDays = 0;
-$hasLifetime = false;
-$nowTs = time();
-
-foreach ($vouchers as $voucher) {
-    $amount = (int) ($voucher['amount'] ?? 0);
-    if ((string) ($voucher['status'] ?? '') !== 'proofed') {
-        continue;
-    }
-
-    $depositedTotal += $amount;
-
-    if ($amount === 150) {
-        $hasLifetime = true;
-        continue;
-    }
-
-    $durationDays = $amount === 50 ? 30 : ($amount === 75 ? 60 : 0);
-    if ($durationDays === 0) {
-        continue;
-    }
-
-    $start = (string) ($voucher['processed_at'] ?: $voucher['submitted_at']);
-    $startTs = strtotime($start);
-    if ($startTs === false) {
-        continue;
-    }
-
-    $endTs = $startTs + ($durationDays * 86400);
-    if ($endTs > $nowTs) {
-        $remainingDays += (int) ceil(($endTs - $nowTs) / 86400);
-    }
-}
-
-$remainingLabel = $hasLifetime
-    ? 'Lifetime'
-    : ($remainingDays > 0 ? $remainingDays . ' Tage verbleibend' : 'Kein aktiver VIP-Zugang');
+$vipOverview = buildVipOverview($vouchers);
+$depositedTotal = (int) ($vipOverview['deposited_total'] ?? 0);
+$remainingLabel = (string) ($vipOverview['remaining_label'] ?? 'Kein aktiver VIP-Zugang');
 
 $title = 'Crypto Voucher einreichen & kaufen';
 $showSidebar = true;
@@ -126,6 +91,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="app-card p-4 mt-4">
     <span class="cyber-chip">Crypto Voucher kaufen</span>
     <h2 class="h4 mt-3">Anbieter (nach Bekanntheitsgrad)</h2>
+    <p class="text-secondary mt-2 mb-0">Für Einreichungen in diesem Dashboard werden nur Voucher mit 50 €, 75 € und 150 € akzeptiert.</p>
     <div data-payment-scope>
     <div class="mb-3 mt-3">
         <label class="form-label" for="voucher_payment_filter">Nach Zahlungsmethode filtern</label>

@@ -11,45 +11,9 @@ $user = requireUser();
 $voucherStmt = db()->prepare('SELECT amount, status, submitted_at, processed_at FROM cryptovouchers WHERE user_id = ? ORDER BY submitted_at DESC');
 $voucherStmt->execute([(int) $user['id']]);
 $vouchers = $voucherStmt->fetchAll();
-
-$depositedTotal = 0;
-$remainingDays = 0;
-$hasLifetime = false;
-$nowTs = time();
-
-foreach ($vouchers as $voucher) {
-    $amount = (int) ($voucher['amount'] ?? 0);
-    if ((string) ($voucher['status'] ?? '') !== 'proofed') {
-        continue;
-    }
-
-    $depositedTotal += $amount;
-
-    if ($amount === 150) {
-        $hasLifetime = true;
-        continue;
-    }
-
-    $durationDays = $amount === 50 ? 30 : ($amount === 75 ? 60 : 0);
-    if ($durationDays === 0) {
-        continue;
-    }
-
-    $start = (string) ($voucher['processed_at'] ?: $voucher['submitted_at']);
-    $startTs = strtotime($start);
-    if ($startTs === false) {
-        continue;
-    }
-
-    $endTs = $startTs + ($durationDays * 86400);
-    if ($endTs > $nowTs) {
-        $remainingDays += (int) ceil(($endTs - $nowTs) / 86400);
-    }
-}
-
-$remainingLabel = $hasLifetime
-    ? 'Lifetime'
-    : ($remainingDays > 0 ? $remainingDays . ' Tage verbleibend' : 'Kein aktiver VIP-Zugang');
+$vipOverview = buildVipOverview($vouchers);
+$depositedTotal = (int) ($vipOverview['deposited_total'] ?? 0);
+$remainingLabel = (string) ($vipOverview['remaining_label'] ?? 'Kein aktiver VIP-Zugang');
 
 $title = 'Dashboard';
 $showSidebar = true;
@@ -130,6 +94,7 @@ require __DIR__ . '/../includes/header.php';
                             <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal und zahlreiche weitere Zahlungsmethoden</p></details>
                         </div>
                     </div>
+                    <p class="text-secondary mt-3 mb-0">Hinweis für Einreichung im Dashboard: unterstützt sind aktuell nur 50 €, 75 € und 150 €.</p>
                 </div>
                 </article>
 

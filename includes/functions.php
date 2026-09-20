@@ -61,3 +61,52 @@ function voucherStatusBadge(string $status): string
     $meta = voucherStatusMeta();
     return $meta[$status]['badge'] ?? $meta['pending']['badge'];
 }
+
+function buildVipOverview(array $vouchers): array
+{
+    $depositedTotal = 0;
+    $remainingDays = 0;
+    $hasLifetime = false;
+    $nowTs = time();
+
+    foreach ($vouchers as $voucher) {
+        $amount = (int) ($voucher['amount'] ?? 0);
+        if ((string) ($voucher['status'] ?? '') !== 'proofed') {
+            continue;
+        }
+
+        $depositedTotal += $amount;
+
+        if ($amount === 150) {
+            $hasLifetime = true;
+            continue;
+        }
+
+        $durationDays = $amount === 50 ? 30 : ($amount === 75 ? 60 : 0);
+        if ($durationDays === 0) {
+            continue;
+        }
+
+        $start = (string) (($voucher['processed_at'] ?? '') ?: ($voucher['submitted_at'] ?? ''));
+        $startTs = strtotime($start);
+        if ($startTs === false) {
+            continue;
+        }
+
+        $endTs = $startTs + ($durationDays * 86400);
+        if ($endTs > $nowTs) {
+            $remainingDays += (int) ceil(($endTs - $nowTs) / 86400);
+        }
+    }
+
+    $remainingLabel = $hasLifetime
+        ? 'Lifetime'
+        : ($remainingDays > 0 ? $remainingDays . ' Tage verbleibend' : 'Kein aktiver VIP-Zugang');
+
+    return [
+        'deposited_total' => $depositedTotal,
+        'remaining_days' => $remainingDays,
+        'has_lifetime' => $hasLifetime,
+        'remaining_label' => $remainingLabel,
+    ];
+}

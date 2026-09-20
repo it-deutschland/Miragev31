@@ -50,9 +50,9 @@ require __DIR__ . '/../includes/header.php';
             </form>
             <div class="muted-divider my-4"></div>
             <ul class="panel-list mb-0">
-                <li><strong>50 €</strong><span class="small-muted">1 Monat VIP Zugang</span></li>
-                <li><strong>75 €</strong><span class="small-muted">2 Monate VIP Zugang</span></li>
-                <li><strong>150 €</strong><span class="small-muted">Lifetime VIP Zugang</span></li>
+                <?php foreach (VOUCHER_ACCESS_RULES as $amount => $rule): ?>
+                    <li><strong><?= e((string) $amount) ?> €</strong><span class="small-muted"><?= e((string) ($rule['label'] ?? 'VIP Zugang')) ?></span></li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>

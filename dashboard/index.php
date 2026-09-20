@@ -112,7 +112,16 @@ require __DIR__ . '/../includes/header.php';
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                    <p class="text-secondary mt-3 mb-3">VIP-Zugang je bestätigtem Voucher: 50 € = 1 Monat, 75 € = 2 Monate, 150 € = Lifetime.</p>
+                    <p class="text-secondary mt-3 mb-3">
+                        VIP-Zugang je bestätigtem Voucher:
+                        <?php
+                        $ruleParts = [];
+                        foreach (VOUCHER_ACCESS_RULES as $amount => $rule) {
+                            $ruleParts[] = $amount . ' € = ' . ($rule['label'] ?? 'VIP Zugang');
+                        }
+                        ?>
+                        <?= e(implode(', ', $ruleParts)) ?>.
+                    </p>
                     <a class="btn btn-primary" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Zur Voucher-Seite</a>
                 </article>
 

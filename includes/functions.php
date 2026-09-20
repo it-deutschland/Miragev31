@@ -71,18 +71,22 @@ function buildVipOverview(array $vouchers): array
 
     foreach ($vouchers as $voucher) {
         $amount = (int) ($voucher['amount'] ?? 0);
+        $rule = VOUCHER_ACCESS_RULES[$amount] ?? null;
         if ((string) ($voucher['status'] ?? '') !== 'proofed') {
+            continue;
+        }
+        if (!is_array($rule)) {
             continue;
         }
 
         $depositedTotal += $amount;
 
-        if ($amount === 150) {
+        if (!empty($rule['lifetime'])) {
             $hasLifetime = true;
             continue;
         }
 
-        $durationDays = $amount === 50 ? 30 : ($amount === 75 ? 60 : 0);
+        $durationDays = (int) ($rule['days'] ?? 0);
         if ($durationDays === 0) {
             continue;
         }

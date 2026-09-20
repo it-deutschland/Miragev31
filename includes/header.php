@@ -59,7 +59,7 @@ $mirageLogoImage = $mirageLogoImage ?? appUrl('/assets/img/mirage-vip-logo.svg')
                     <?= csrfField('admin_logout') ?>
                     <button class="btn btn-outline-danger w-100 mt-3" type="submit">Logout</button>
                 </form>
-            <?php else: ?>
+            <?php elseif ($sidebarRole === 'user'): ?>
                 <a class="nav-link" href="<?= e(appUrl('/dashboard')) ?>">Dashboard Start</a>
                 <a class="nav-link" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Crypto Voucher einreichen & kaufen</a>
                 <a class="nav-link" href="<?= e(appUrl('/dashboard/tickets')) ?>">Support Tickets</a>

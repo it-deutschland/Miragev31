@@ -44,9 +44,9 @@ function currentPath(): string
 function voucherStatusMeta(): array
 {
     return [
-        'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning', 'description' => 'Der Voucher wird aktuell geprüft.'],
         'confirmed' => ['label' => 'Bestätigt', 'badge' => 'success', 'description' => 'Der Voucher wurde erfolgreich bestätigt und aktiviert.'],
         'invalid' => ['label' => 'Ungültig', 'badge' => 'danger', 'description' => 'Der Voucher konnte nicht bestätigt werden.'],
+        'pending' => ['label' => 'In Bearbeitung', 'badge' => 'warning', 'description' => 'Der Voucher wird aktuell geprüft.'],
     ];
 }
 
@@ -145,4 +145,38 @@ function voucherAccessRuleLines(): array
         $lines[] = $amount . ' € = ' . ($rule['label'] ?? 'VIP Zugang');
     }
     return $lines;
+}
+
+function voucherShopProviders(): array
+{
+    return [
+        [
+            'name' => 'Dundle – Crypto Voucher Deutschland',
+            'url' => 'https://dundle.com/de/cryptovoucher/',
+            'description' => '5 €, 10 €, 25 €, 50 €, 100 €, 150 €, 200 €, 250 € · Sofortige Lieferung per E-Mail · Offizieller Crypto-Voucher-Vertriebspartner laut Anbieter.',
+            'methods' => ['paypal', 'apple-pay', 'klarna'],
+            'methods_label' => 'PayPal, Apple Pay, Klarna u. a.',
+        ],
+        [
+            'name' => 'Recharge.com – Crypto Voucher',
+            'url' => 'https://www.recharge.com/de/lu/crypto-vouchers',
+            'description' => '5 € bis 200 € · Code direkt per E-Mail.',
+            'methods' => ['paypal', 'paysafecard', 'klarna'],
+            'methods_label' => 'PayPal, Paysafecard, Klarna u. a.',
+        ],
+        [
+            'name' => 'AufladenKarte – Crypto Voucher',
+            'url' => 'https://aufladenkarte.de/shop/crypto-voucher',
+            'description' => 'Deutschland ausgerichteter Shop · Code laut Anbieter direkt nach dem Kauf per E-Mail.',
+            'methods' => ['paypal', 'visa-mastercard'],
+            'methods_label' => 'PayPal, Visa/Mastercard',
+        ],
+        [
+            'name' => 'Skine – Crypto Voucher',
+            'url' => 'https://skine.com/de-de/cryptovoucher',
+            'description' => 'z. B. 50 € und 100 € · Digitale Abwicklung.',
+            'methods' => ['paypal', 'apple-pay', 'klarna', 'visa-mastercard'],
+            'methods_label' => 'PayPal und zahlreiche weitere Zahlungsmethoden',
+        ],
+    ];
 }

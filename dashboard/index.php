@@ -73,26 +73,13 @@ require __DIR__ . '/../includes/header.php';
                         </select>
                     </div>
                     <div class="voucher-shops">
-                        <div class="voucher-shop" data-payment-card data-methods="paypal,apple-pay,klarna">
-                            <h4><a href="https://dundle.com/de/cryptovoucher/" target="_blank" rel="noopener noreferrer">Dundle – Crypto Voucher Deutschland</a></h4>
-                            <p class="mb-2">5 €, 10 €, 25 €, 50 €, 100 €, 150 €, 200 €, 250 € · Sofortige Lieferung per E-Mail · Offizieller Crypto-Voucher-Vertriebspartner laut Anbieter.</p>
-                            <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal, Apple Pay, Klarna u. a.</p></details>
-                        </div>
-                        <div class="voucher-shop" data-payment-card data-methods="paypal,paysafecard,klarna">
-                            <h4><a href="https://www.recharge.com/de/lu/crypto-vouchers" target="_blank" rel="noopener noreferrer">Recharge.com – Crypto Voucher</a></h4>
-                            <p class="mb-2">5 € bis 200 € · Code direkt per E-Mail.</p>
-                            <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal, Paysafecard, Klarna u. a.</p></details>
-                        </div>
-                        <div class="voucher-shop" data-payment-card data-methods="paypal,visa-mastercard">
-                            <h4><a href="https://aufladenkarte.de/shop/crypto-voucher" target="_blank" rel="noopener noreferrer">AufladenKarte – Crypto Voucher</a></h4>
-                            <p class="mb-2">Deutschland ausgerichteter Shop · Code laut Anbieter direkt nach dem Kauf per E-Mail.</p>
-                            <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal, Visa/Mastercard</p></details>
-                        </div>
-                        <div class="voucher-shop" data-payment-card data-methods="paypal,apple-pay,klarna,visa-mastercard">
-                            <h4><a href="https://skine.com/de-de/cryptovoucher" target="_blank" rel="noopener noreferrer">Skine – Crypto Voucher</a></h4>
-                            <p class="mb-2">Beispiele: 50 € und 100 € · Digitale Abwicklung.</p>
-                            <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2">PayPal und zahlreiche weitere Zahlungsmethoden</p></details>
-                        </div>
+                        <?php foreach (voucherShopProviders() as $provider): ?>
+                            <div class="voucher-shop" data-payment-card data-methods="<?= e(implode(',', $provider['methods'])) ?>">
+                                <h4><a href="<?= e($provider['url']) ?>" target="_blank" rel="noopener noreferrer"><?= e($provider['name']) ?></a></h4>
+                                <p class="mb-2"><?= e($provider['description']) ?></p>
+                                <details><summary>Akzeptierte Zahlungsmethoden</summary><p class="mb-0 mt-2"><?= e($provider['methods_label']) ?></p></details>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                     <p class="text-secondary mt-3 mb-0">Hinweis für Einreichung im Dashboard: unterstützt sind aktuell nur 50 €, 75 € und 150 €.</p>
                 </div>
@@ -104,11 +91,10 @@ require __DIR__ . '/../includes/header.php';
                     <h3>2) Voucher Code einreichen</h3>
                     <p class="text-secondary mb-2">Reiche deinen Code über die Voucher-Seite ein und verfolge den Status:</p>
                     <ul class="panel-list">
-                        <?php $statusMeta = voucherStatusMeta(); ?>
-                        <?php foreach (['confirmed', 'invalid', 'pending'] as $statusCode): ?>
+                        <?php foreach (voucherStatusMeta() as $statusCode => $statusConfig): ?>
                             <li>
                                 <strong><?= e(voucherStatusLabel($statusCode)) ?></strong>
-                                <span class="small-muted"><?= e((string) ($statusMeta[$statusCode]['description'] ?? '')) ?></span>
+                                <span class="small-muted"><?= e((string) ($statusConfig['description'] ?? '')) ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>

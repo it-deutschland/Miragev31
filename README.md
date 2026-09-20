@@ -78,6 +78,7 @@ Wichtige Routen:
 - `/dashboard`
 - `/dashboard/vouchers`
 - `/dashboard/tickets`
+- `/logout`
 - `/payment/voucher`
 - `/admin/login`
 - `/admin/register`

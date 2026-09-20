@@ -63,6 +63,11 @@ $mirageLogoImage = $mirageLogoImage ?? appUrl('/assets/img/mirage-vip-logo.svg')
                 <a class="nav-link" href="<?= e(appUrl('/dashboard')) ?>">Dashboard Start</a>
                 <a class="nav-link" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Crypto Voucher einreichen & kaufen</a>
                 <a class="nav-link" href="<?= e(appUrl('/dashboard/tickets')) ?>">Support Tickets</a>
+                <form method="post" action="<?= e(appUrl('/logout')) ?>">
+                    <?php require_once __DIR__ . '/csrf.php'; ?>
+                    <?= csrfField('user_logout') ?>
+                    <button class="btn btn-outline-danger w-100 mt-3" type="submit">Logout</button>
+                </form>
             <?php endif; ?>
         </nav>
     </aside>

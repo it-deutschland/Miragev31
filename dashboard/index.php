@@ -114,13 +114,7 @@ require __DIR__ . '/../includes/header.php';
                     </ul>
                     <p class="text-secondary mt-3 mb-3">
                         VIP-Zugang je bestätigtem Voucher:
-                        <?php
-                        $ruleParts = [];
-                        foreach (VOUCHER_ACCESS_RULES as $amount => $rule) {
-                            $ruleParts[] = $amount . ' € = ' . ($rule['label'] ?? 'VIP Zugang');
-                        }
-                        ?>
-                        <?= e(implode(', ', $ruleParts)) ?>.
+                        <?= e(implode(', ', voucherAccessRuleLines())) ?>.
                     </p>
                     <a class="btn btn-primary" href="<?= e(appUrl('/dashboard/vouchers')) ?>">Zur Voucher-Seite</a>
                 </article>

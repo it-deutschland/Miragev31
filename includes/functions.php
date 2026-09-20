@@ -136,3 +136,13 @@ function buildVipOverview(array $vouchers): array
         'remaining_label' => $remainingLabel,
     ];
 }
+
+
+function voucherAccessRuleLines(): array
+{
+    $lines = [];
+    foreach (VOUCHER_ACCESS_RULES as $amount => $rule) {
+        $lines[] = $amount . ' € = ' . ($rule['label'] ?? 'VIP Zugang');
+    }
+    return $lines;
+}

@@ -9,11 +9,14 @@ require_once __DIR__ . '/../includes/csrf.php';
 
 $user = requireUser();
 
+$overviewStmt = db()->prepare('SELECT amount, status, processed_at FROM cryptovouchers WHERE user_id = ?');
+$overviewStmt->execute([(int) $user['id']]);
+$vipOverview = buildVipOverview($overviewStmt->fetchAll());
+
 $voucherStmt = db()->prepare('SELECT id, amount, status, submitted_at, processed_at FROM cryptovouchers WHERE user_id = ? ORDER BY submitted_at DESC LIMIT 100');
 $voucherStmt->execute([(int) $user['id']]);
 $vouchers = $voucherStmt->fetchAll();
 
-$vipOverview = buildVipOverview($vouchers);
 $depositedTotal = (int) ($vipOverview['deposited_total'] ?? 0);
 $remainingLabel = (string) ($vipOverview['remaining_label'] ?? 'Kein aktiver VIP-Zugang');
 
